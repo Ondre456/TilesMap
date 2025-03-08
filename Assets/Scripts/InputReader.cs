@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(CoinCollector))]
 [RequireComponent(typeof(Jumper))]
-public class Player : MonoBehaviour
+public class InputReader : MonoBehaviour
 {
     private const string Jump = nameof(Jump);
     private const string Horizontal = nameof(Horizontal);
@@ -29,6 +29,6 @@ public class Player : MonoBehaviour
         bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
         _playerMover.Move(horizontalMovementComponent, isWalking);
-        _playerAnimatorData.SetupParametres(_playerMover.SpeedCoefficient);
+        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient());
     }
 }

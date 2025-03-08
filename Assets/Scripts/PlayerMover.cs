@@ -9,34 +9,12 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _maxSpeed = 12f;
     [SerializeField] private float _deceleration = 4f;
     [SerializeField] private float _walkSpeed = 4f;
-    [SerializeField] private float _movementBlockDuration = 0.1f;
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private MovementDirectionChanger _movementDirectionChanger;
     private float _speed = 0;
     private float _currentMaxSpeed;
-
-    public float SpeedCoefficient
-    {
-        get
-        {
-            const float Threshhold = 0.5f;
-
-            float result = 0f;
-
-            if (Mathf.Abs(_speed) <= _walkSpeed)
-            {
-                result = Mathf.Abs(_speed) / _walkSpeed * Threshhold;
-            }
-            else
-            {
-                result = Threshhold + ((Mathf.Abs(_speed) - _walkSpeed) / (_maxSpeed - _walkSpeed) * Threshhold);
-            }
-
-            return result;
-        }
-    }
 
     private void Awake()
     {
@@ -47,12 +25,14 @@ public class PlayerMover : MonoBehaviour
 
     public void Move(float horizontalComponent, bool isWalking)
     {
+        const float VeryLittleNumber = 0.01f;
+
         if (isWalking)
             _currentMaxSpeed = _walkSpeed;
         else
             _currentMaxSpeed = _maxSpeed;
 
-        if (Mathf.Abs(horizontalComponent) > 0.01f)
+        if (Mathf.Abs(horizontalComponent) > VeryLittleNumber)
         {
             _speed += _acceleration * horizontalComponent;
             _speed = Mathf.Clamp(_speed, -_currentMaxSpeed, _currentMaxSpeed);
@@ -80,5 +60,23 @@ public class PlayerMover : MonoBehaviour
         Vector2 velocity = _rigidbody.velocity;
         velocity.x = _speed;
         _rigidbody.velocity = velocity;
+    }
+
+    public float GetSpeedCoefficient()
+    {
+        const float Threshhold = 0.5f;
+
+        float result = 0f;
+
+        if (Mathf.Abs(_speed) <= _walkSpeed)
+        {
+            result = Mathf.Abs(_speed) / _walkSpeed * Threshhold;
+        }
+        else
+        {
+            result = Threshhold + ((Mathf.Abs(_speed) - _walkSpeed) / (_maxSpeed - _walkSpeed) * Threshhold);
+        }
+
+        return result;
     }
 }
