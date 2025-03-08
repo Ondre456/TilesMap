@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(MovementDirectionChanger))]
-[RequireComponent(typeof(Animator))]
 public class Patrool : MonoBehaviour
 {
     [SerializeField] private List<Vector2> _points = new List<Vector2>();
@@ -21,8 +19,6 @@ public class Patrool : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _directionChanger = GetComponent<MovementDirectionChanger>();
-        _animator = GetComponent<Animator>();
-        UpdateMovementAnimation();
     }
 
     private void FixedUpdate()
@@ -44,10 +40,4 @@ public class Patrool : MonoBehaviour
             _index++;
         }
     }
-
-    private void UpdateMovementAnimation()
-    {
-        float animationBlend = 1f;
-        _animator.SetFloat("Speed", animationBlend);
-    }  
 }

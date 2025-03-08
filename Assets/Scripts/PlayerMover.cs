@@ -1,9 +1,7 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MovementDirectionChanger))]
 public class PlayerMover : MonoBehaviour
 {
@@ -19,6 +17,27 @@ public class PlayerMover : MonoBehaviour
     private float _speed = 0;
     private float _currentMaxSpeed;
 
+    public float SpeedCoefficient
+    {
+        get
+        {
+            const float Threshhold = 0.5f;
+
+            float result = 0f;
+
+            if (Mathf.Abs(_speed) <= _walkSpeed)
+            {
+                result = Mathf.Abs(_speed) / _walkSpeed * Threshhold;
+            }
+            else
+            {
+                result = Threshhold + ((Mathf.Abs(_speed) - _walkSpeed) / (_maxSpeed - _walkSpeed) * Threshhold);
+            }
+
+            return result;
+        }
+    }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -26,20 +45,16 @@ public class PlayerMover : MonoBehaviour
         _movementDirectionChanger = GetComponent<MovementDirectionChanger>();
     }
 
-    private void FixedUpdate()
+    public void Move(float horizontalComponent, bool isWalking)
     {
-        float x = Input.GetAxis("Horizontal");
-
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (isWalking)
             _currentMaxSpeed = _walkSpeed;
         else
             _currentMaxSpeed = _maxSpeed;
 
-        _movementDirectionChanger.SetDirection(_speed);
-
-        if (Mathf.Abs(x) > 0.01f)
+        if (Mathf.Abs(horizontalComponent) > 0.01f)
         {
-            _speed += _acceleration * x;
+            _speed += _acceleration * horizontalComponent;
             _speed = Mathf.Clamp(_speed, -_currentMaxSpeed, _currentMaxSpeed);
         }
         else
@@ -47,40 +62,23 @@ public class PlayerMover : MonoBehaviour
             if (_speed > 0)
             {
                 _speed -= _deceleration;
-                
+
                 if (_speed < 0)
                     _speed = 0;
             }
             else if (_speed < 0)
             {
                 _speed += _deceleration;
-                
+
                 if (_speed > 0)
                     _speed = 0;
             }
         }
 
+        _movementDirectionChanger.SetDirection(_speed);
+
         Vector2 velocity = _rigidbody.velocity;
         velocity.x = _speed;
         _rigidbody.velocity = velocity;
-        UpdateMovementAnimation();
-    }
-
-    private void UpdateMovementAnimation()
-    {
-        const float AnimationThreshhold = 0.5f;
-
-        float animationBlend = 0f;
-
-        if (Mathf.Abs(_speed) <= _walkSpeed)
-        {
-            animationBlend = Mathf.Abs(_speed) / _walkSpeed * AnimationThreshhold;
-        }
-        else
-        {
-            animationBlend = AnimationThreshhold + ((Mathf.Abs(_speed) - _walkSpeed) / (_maxSpeed - _walkSpeed) * AnimationThreshhold);
-        }
-
-        _animator.SetFloat("Speed", animationBlend);
     }
 }

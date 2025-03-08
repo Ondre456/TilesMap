@@ -27,14 +27,12 @@ public class MovementDirectionChanger : MonoBehaviour
             IsDirectionRight = true;
             IsDirectionLeft = false;
         }
-        else
-        if (speed < 0)
+        else if (speed < 0)
         {
             IsDirectionLeft = true;
             IsDirectionRight = false;
         }
-        else
-        if (speed == 0)
+        else if (speed == 0)
         {
             IsDirectionLeft = false;
             IsDirectionRight = false;

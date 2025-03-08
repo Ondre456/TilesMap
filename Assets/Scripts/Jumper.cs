@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerJump : MonoBehaviour
+public class Jumper : MonoBehaviour
 {
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private Transform _groundCheck;
@@ -16,19 +16,16 @@ public class PlayerJump : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    public void TryJump()
     {
+        Debug.Log("sdf");
+
         _onGround = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckDistance, _groundMask);
 
-        if (Input.GetButtonDown("Jump") && _onGround)
+        if (_onGround)
         {
-            Jump();
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
         }
-    }
-
-    private void Jump()
-    {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
 
     private void OnDrawGizmosSelected()
