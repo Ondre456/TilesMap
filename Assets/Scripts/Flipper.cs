@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovementDirectionChanger : MonoBehaviour
+public class Flipper : MonoBehaviour
 {
     private const float GoLeft = 180;
     private const float GoRight = 0;

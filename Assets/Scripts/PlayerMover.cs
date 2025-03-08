@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(MovementDirectionChanger))]
+[RequireComponent(typeof(Flipper))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _acceleration = 2f;
@@ -12,7 +12,7 @@ public class PlayerMover : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
-    private MovementDirectionChanger _movementDirectionChanger;
+    private Flipper _movementDirectionChanger;
     private float _speed = 0;
     private float _currentMaxSpeed;
 
@@ -20,7 +20,7 @@ public class PlayerMover : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _movementDirectionChanger = GetComponent<MovementDirectionChanger>();
+        _movementDirectionChanger = GetComponent<Flipper>();
     }
 
     public void Move(float horizontalComponent, bool isWalking)

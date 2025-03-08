@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(MovementDirectionChanger))]
+[RequireComponent(typeof(Flipper))]
 public class Patrool : MonoBehaviour
 {
     [SerializeField] private List<Vector2> _points = new List<Vector2>();
@@ -12,13 +12,13 @@ public class Patrool : MonoBehaviour
     private int _index = 0;
     private Vector2 _currentGoal;
     private Rigidbody2D _rigidbody;
-    private MovementDirectionChanger _directionChanger;
+    private Flipper _directionChanger;
     private Animator _animator;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _directionChanger = GetComponent<MovementDirectionChanger>();
+        _directionChanger = GetComponent<Flipper>();
     }
 
     private void FixedUpdate()
