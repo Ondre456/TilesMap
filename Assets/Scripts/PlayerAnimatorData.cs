@@ -19,6 +19,6 @@ public class PlayerAnimatorData : MonoBehaviour
 
     public void SetupParametres(float speed = BaseSpeed)
     {
-        _animator.SetFloat(PlayerAnimatorData.Params.Speed, speed);
+        _animator.SetFloat(Params.Speed, speed);
     }
 }

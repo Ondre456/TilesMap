@@ -1,34 +1,32 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerAnimatorData))]
-[RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(CoinCollector))]
-[RequireComponent(typeof(Jumper))]
 public class InputReader : MonoBehaviour
 {
     private const string Jump = nameof(Jump);
     private const string Horizontal = nameof(Horizontal);
 
-    private PlayerAnimatorData _playerAnimatorData;
-    private PlayerMover _playerMover;
-    private Jumper _jumper;
+    private bool _isJump;
 
-    private void Awake()
+    public float Direction { get; private set; }
+    public bool IsWalking { get; private set; }
+
+    private void Update()
     {
-        _playerAnimatorData = GetComponent<PlayerAnimatorData>();
-        _playerMover = GetComponent<PlayerMover>();
-        _jumper = GetComponent<Jumper>();
+        Direction = Input.GetAxis(Horizontal);
+
+        if (Input.GetButton(Jump))
+            _isJump = true;
+
+        IsWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
     }
 
-    private void FixedUpdate()
+    public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
+
+    private bool GetBoolAsTrigger(ref bool value)
     {
-        if (Input.GetButton(Jump))
-            _jumper.TryJump();
+        bool localValue = value;
+        value = false;
 
-        float horizontalMovementComponent = Input.GetAxis(Horizontal);
-        bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-
-        _playerMover.Move(horizontalMovementComponent, isWalking);
-        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient());
+        return localValue;
     }
 }

@@ -12,6 +12,7 @@ public class EnemyAnimator : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        SetupSpeed();
     }
 
     public void SetupSpeed(float speed = EnemyBaseSpeed)

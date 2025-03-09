@@ -5,16 +5,16 @@ public class Flipper : MonoBehaviour
     private const float GoLeft = 180;
     private const float GoRight = 0;
 
-    private bool IsDirectionRight;
-    private bool IsDirectionLeft;
+    private bool _isDirectionRight;
+    private bool _isDirectionLeft;
 
     private void FixedUpdate()
     {
-        if (IsDirectionRight)
+        if (_isDirectionRight)
         {
             transform.rotation = new Quaternion(0, GoRight, 0, 0);
         }
-        if (IsDirectionLeft)
+        if (_isDirectionLeft)
         {
             transform.rotation = new Quaternion(0,GoLeft,0,0);
         }
@@ -24,18 +24,18 @@ public class Flipper : MonoBehaviour
     {
         if (speed > 0)
         {
-            IsDirectionRight = true;
-            IsDirectionLeft = false;
+            _isDirectionRight = true;
+            _isDirectionLeft = false;
         }
         else if (speed < 0)
         {
-            IsDirectionLeft = true;
-            IsDirectionRight = false;
+            _isDirectionLeft = true;
+            _isDirectionRight = false;
         }
         else if (speed == 0)
         {
-            IsDirectionLeft = false;
-            IsDirectionRight = false;
+            _isDirectionLeft = false;
+            _isDirectionRight = false;
         }
     }
 }

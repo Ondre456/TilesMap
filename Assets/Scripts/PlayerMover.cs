@@ -11,7 +11,6 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _walkSpeed = 4f;
 
     private Rigidbody2D _rigidbody;
-    private Animator _animator;
     private Flipper _movementDirectionChanger;
     private float _speed = 0;
     private float _currentMaxSpeed;
@@ -19,7 +18,6 @@ public class PlayerMover : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
         _movementDirectionChanger = GetComponent<Flipper>();
     }
 

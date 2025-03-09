@@ -7,6 +7,5 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         EnemyAnimator enemyAnimator = GetComponent<EnemyAnimator>();
-        enemyAnimator.SetupSpeed();
     }
 }
