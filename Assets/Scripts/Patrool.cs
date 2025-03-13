@@ -21,7 +21,7 @@ public class Patrool : MonoBehaviour
         _directionChanger = GetComponent<Flipper>();
     }
 
-    private void FixedUpdate()
+    public void Move()
     {
         if (_points.Count == 0)
             return;

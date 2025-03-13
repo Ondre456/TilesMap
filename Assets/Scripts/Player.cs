@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(CoinCollector))]
 [RequireComponent(typeof(Jumper))]
 [RequireComponent(typeof(InputReader))]
+[RequireComponent(typeof(PlayerFightingSystem))]
 public class Player : MonoBehaviour
 {
     private PlayerAnimatorData _playerAnimatorData;
     private PlayerMover _playerMover;
     private Jumper _jumper;
     private InputReader _inputReader;
+    private PlayerFightingSystem _playerFightingSystem;
 
     private void Awake()
     {
@@ -18,16 +20,25 @@ public class Player : MonoBehaviour
         _playerMover = GetComponent<PlayerMover>();
         _jumper = GetComponent<Jumper>();
         _inputReader = GetComponent<InputReader>();
+        _playerFightingSystem = GetComponent<PlayerFightingSystem>();
     }
 
     private void Update()
     {
-        _playerMover.Move(_inputReader.Direction, _inputReader.IsWalking);
+        bool isAtack = _inputReader.IsAtack;
 
-        if (_inputReader.GetIsJump())
+        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient(), isAtack);
+
+        if (_inputReader.IsJump)
             _jumper.TryJump();
 
-        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient());
-
+        if (isAtack)
+        {
+            _playerFightingSystem.Atack(_inputReader.Direction);
+        }
+        else
+        {
+            _playerMover.Move(_inputReader.Direction, _inputReader.IsWalking);
+        }
     }
 }
