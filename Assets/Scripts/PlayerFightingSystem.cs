@@ -6,14 +6,14 @@ public class PlayerFightingSystem : MonoBehaviour
 {
     [SerializeField] private float _attackDelay = 0.8f;
     [SerializeField] private float _attackCooldown = 0.5f;
-    [SerializeField] private float _attackMoveDistance = 1f;
     [SerializeField] private float _attackMoveSpeed = 10f;
 
-    private bool _isAtack = false;
     private bool _canAtack = true;
     private WaitForSeconds _atackWait;
     private WaitForSeconds _atackCooldownWait;
     private Rigidbody2D _rigidbody2D;
+
+    public bool IsAttack { get; private set; }
 
     private void Awake()
     {
@@ -35,26 +35,23 @@ public class PlayerFightingSystem : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Enemy enemy))
         {
-            if (_isAtack)
+            if (IsAttack)
             {
                 Destroy(enemy.gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
             }
         }
     }
 
     private IEnumerator AtackCourutine(Vector2 attackDirection)
     {
-        _isAtack = true;
+        IsAttack = true;
         _rigidbody2D.velocity = attackDirection * _attackMoveSpeed;
         
         yield return _atackWait;
 
-        _isAtack = false;
-        StartCoroutine(AttackCooldownCourutine());
+        IsAttack = false;
+
+        yield return AttackCooldownCourutine();
     }
 
     private IEnumerator AttackCooldownCourutine()

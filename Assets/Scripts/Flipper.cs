@@ -12,11 +12,11 @@ public class Flipper : MonoBehaviour
     {
         if (_isDirectionRight)
         {
-            transform.rotation = new Quaternion(0, GoRight, 0, 0);
+            transform.rotation = Quaternion.Euler(0, GoRight, 0);
         }
         if (_isDirectionLeft)
         {
-            transform.rotation = new Quaternion(0,GoLeft,0,0);
+            transform.rotation = Quaternion.Euler(0,GoLeft,0);
         }
     }
 
