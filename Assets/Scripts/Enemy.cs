@@ -21,4 +21,15 @@ public class Enemy : MonoBehaviour
         else
             _patrool.Move();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out PlayerFightingSystem opponent))
+        {
+            if (opponent.IsAttack == false)
+            {
+                Destroy(opponent.gameObject);
+            }
+        }
+    }
 }
