@@ -7,6 +7,8 @@ public class InputReader : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Fire1 = nameof(Fire1);
 
+    private float _oldDirection;
+
     public Action<float, bool> OnMovingInput;
     public Action OnJump;
     public Action<float> OnAttack;
@@ -17,12 +19,12 @@ public class InputReader : MonoBehaviour
 
         float direction = Input.GetAxis(Horizontal);
 
-        if (direction != MovingStopMeaning)
+        if (direction != MovingStopMeaning || _oldDirection != direction)
         {
             bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             OnMovingInput?.Invoke(direction, isWalking);
+            _oldDirection = direction;
         }
-
         bool isJump = Input.GetButtonDown(Jump);
 
         if (isJump)
