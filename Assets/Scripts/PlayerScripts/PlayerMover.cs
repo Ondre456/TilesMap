@@ -63,6 +63,7 @@ public class PlayerMover : MonoBehaviour
     public float GetSpeedCoefficient()
     {
         const float Threshhold = 0.5f;
+        const float Rounding = 10f;
 
         float result = 0f;
 
@@ -74,6 +75,8 @@ public class PlayerMover : MonoBehaviour
         {
             result = Threshhold + ((Mathf.Abs(_speed) - _walkSpeed) / (_maxSpeed - _walkSpeed) * Threshhold);
         }
+
+        result = Mathf.Round(result * Rounding) / Rounding;
 
         return result;
     }

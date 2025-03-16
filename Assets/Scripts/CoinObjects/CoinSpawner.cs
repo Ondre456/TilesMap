@@ -34,10 +34,10 @@ public class CoinSpawner : MonoBehaviour
 
     private void CoinDeactivated(Coin coin)
     {
-        StartCoroutine(SpawnCourutine());
+        StartCoroutine(SpawnCoroutine());
     }
 
-    private IEnumerator SpawnCourutine()
+    private IEnumerator SpawnCoroutine()
     {
         yield return _coinSpawnDelayer;
 

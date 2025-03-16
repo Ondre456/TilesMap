@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -5,12 +6,15 @@ using UnityEngine;
 public class Pursuer : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _attackRange = 2f;
 
     private Player _target;
     private Rigidbody2D _rigidbody;
     private Flipper _flipper;
 
     public bool IsPurse { get => _target != null; }
+
+    public Action EnterAttackZone;
 
     private void Awake()
     {
@@ -28,11 +32,17 @@ public class Pursuer : MonoBehaviour
 
         _rigidbody.velocity = velocity;
         _flipper.SetDirection(velocity.x);
+        float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
+
+        if (distanceToTarget <= _attackRange)
+        {
+            EnterAttackZone?.Invoke();
+        }
     }
 
-    public void AcceptGoal(Player goal)
+    public void AcceptGoal(Player target)
     {
-        _target = goal;
+        _target = target;
     }
 
     public void LooseGoal()

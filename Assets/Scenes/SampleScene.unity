@@ -2220,7 +2220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011914616612, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.61
+      value: 7.57
       objectReference: {fileID: 0}
     - target: {fileID: 4000011914616612, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2276,9 +2276,6 @@ PrefabInstance:
       addedObject: {fileID: 2134263654}
     - targetCorrespondingSourceObject: {fileID: 1000013304306144, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2134263650}
-    - targetCorrespondingSourceObject: {fileID: 1000013304306144, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2134263660}
     - targetCorrespondingSourceObject: {fileID: 1000013304306144, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
       insertIndex: -1
@@ -2286,6 +2283,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1000013304306144, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2134263664}
+    - targetCorrespondingSourceObject: {fileID: 1000013304306144, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2134263666}
   m_SourcePrefab: {fileID: 100100000, guid: 30ef59945f2a7ea499bbbe10a7d48f1a, type: 3}
 --- !u!1001 &1332054128
 PrefabInstance:
@@ -6408,7 +6408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732a2f09273ac6945bcb4d18694aff31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _repeatRate: 3
+  _repeatPeriod: 3
 --- !u!4 &1534262341
 Transform:
   m_ObjectHideFlags: 0
@@ -6604,7 +6604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50345b296fbda6143bc31bfe23c8973d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countOfCollectedCoins: 0
+  _collectedCount: 0
 --- !u!114 &1539310672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7354,23 +7354,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2134263650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134263648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e618851db6b529d4483f66c28aee318e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _points:
-  - {x: 1.53, y: -5.45}
-  - {x: 13.33, y: -5.45}
-  _distanceThreshold: 0.1
-  _speed: 2
 --- !u!114 &2134263651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7460,6 +7443,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _attackRange: 3
+--- !u!114 &2134263666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134263648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8677c94f465794a9c3e510664259c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _points:
+  - {x: 1.46, y: -5.2}
+  - {x: 13.58, y: -5.2}
+  _distanceThreshold: 0.1
+  _speed: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
