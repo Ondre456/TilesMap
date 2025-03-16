@@ -21,24 +21,25 @@ public class Player : MonoBehaviour
         _jumper = GetComponent<Jumper>();
         _inputReader = GetComponent<InputReader>();
         _playerFightingSystem = GetComponent<PlayerFightingSystem>();
+
+        _inputReader.OnMovingInput += OnMove;
+        _inputReader.OnJump += Jump;
+        _inputReader.OnAttack += Attack;
     }
 
-    private void Update()
+    private void OnMove(float direction, bool isWalking)
     {
-        bool isAtack = _inputReader.IsAtack;
+        _playerMover.Move(direction, isWalking);
+        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient());
+    }
 
-        _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient(), isAtack);
+    private void Attack(float direction)
+    {
+        _playerFightingSystem.Atack(direction);
+    }
 
-        if (_inputReader.IsJump)
-            _jumper.TryJump();
-
-        if (isAtack)
-        {
-            _playerFightingSystem.Atack(_inputReader.Direction);
-        }
-        else
-        {
-            _playerMover.Move(_inputReader.Direction, _inputReader.IsWalking);
-        }
+    private void Jump()
+    {
+        _jumper.TryJump();
     }
 }

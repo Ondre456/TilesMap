@@ -5,37 +5,31 @@ public class Flipper : MonoBehaviour
     private const float GoLeft = 180;
     private const float GoRight = 0;
 
-    private bool _isDirectionRight;
-    private bool _isDirectionLeft;
-
-    private void FixedUpdate()
-    {
-        if (_isDirectionRight)
-        {
-            transform.rotation = Quaternion.Euler(0, GoRight, 0);
-        }
-        if (_isDirectionLeft)
-        {
-            transform.rotation = Quaternion.Euler(0,GoLeft,0);
-        }
-    }
+    private Quaternion _leftRotation = Quaternion.Euler(0, GoLeft, 0);
+    private Quaternion _rightRotation = Quaternion.Euler(0, GoRight, 0);
 
     public void SetDirection(float speed)
     {
+        bool isDirectionRight = false;
+        bool isDirectionLeft = false;
+        
         if (speed > 0)
         {
-            _isDirectionRight = true;
-            _isDirectionLeft = false;
+            isDirectionRight = true;
         }
         else if (speed < 0)
         {
-            _isDirectionLeft = true;
-            _isDirectionRight = false;
+            isDirectionLeft = true;
         }
-        else if (speed == 0)
+
+        if (isDirectionRight)
         {
-            _isDirectionLeft = false;
-            _isDirectionRight = false;
+            transform.rotation = _rightRotation;
+        }
+
+        if (isDirectionLeft)
+        {
+            transform.rotation = _leftRotation;
         }
     }
 }
