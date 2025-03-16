@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InputReader : MonoBehaviour
@@ -6,39 +7,35 @@ public class InputReader : MonoBehaviour
     private const string Horizontal = nameof(Horizontal);
     private const string Fire1 = nameof(Fire1);
 
-    private bool _isJump;
-    private bool _isAtack;
-
-    public bool IsJump
-    {
-        get
-        {
-            bool temporal = _isJump;
-            _isJump = false;
-
-            return temporal;
-        }
-    }
-
-    public bool IsAtack
-    {
-        get
-        {
-            bool temporal = _isAtack;
-            _isAtack = false;
-
-            return temporal;
-        }
-    }
-
-    public float Direction { get; private set; }
-    public bool IsWalking { get; private set; }
+    public Action<float, bool> OnMovingInput;
+    public Action OnJump;
+    public Action<float> OnAttack;
 
     private void Update()
     {
-        Direction = Input.GetAxis(Horizontal);
-        _isJump = Input.GetButtonDown(Jump);
-        _isAtack = Input.GetButtonDown(Fire1);
-        IsWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        const float MovingStopMeaning = 0;
+
+        float direction = Input.GetAxis(Horizontal);
+
+        if (direction != MovingStopMeaning)
+        {
+            bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            OnMovingInput?.Invoke(direction, isWalking);
+        }
+
+        bool isJump = Input.GetButtonDown(Jump);
+
+        if (isJump)
+        {
+            OnJump?.Invoke();
+        }
+
+        bool isAttack = Input.GetButtonDown(Fire1);
+
+        if (isAttack)
+        {
+            OnAttack?.Invoke(direction);
+        }
+
     }
 }

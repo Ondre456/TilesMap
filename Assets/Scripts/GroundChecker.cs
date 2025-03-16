@@ -6,7 +6,22 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundCheckDistance = 0.1f;
 
-    public bool OnGround => Physics2D.OverlapCircle(_groundCheck.position, _groundCheckDistance, _groundMask);
+    private Collider2D[] _colliders = new Collider2D[10];
+
+    public bool OnGround
+    {
+        get
+        {
+            int hitCount = Physics2D.OverlapCircleNonAlloc(
+                _groundCheck.position,
+                _groundCheckDistance,
+                _colliders,
+                _groundMask
+            );
+
+            return hitCount > 0;
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

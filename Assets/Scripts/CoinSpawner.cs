@@ -4,15 +4,17 @@ using UnityEngine;
 [RequireComponent(typeof(CoinPool))]
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private float _repeatRate = 3f;
+    [SerializeField] private float _repeatPeriod = 3f;
 
     private CoinPool _coinPool;
     private Vector3 _position;
+    private WaitForSeconds _coinSpawnDelayer;
 
     private void Awake()
     {
         _position = transform.position;
         _coinPool = GetComponent<CoinPool>();
+        _coinSpawnDelayer = new WaitForSeconds(_repeatPeriod);
     }
 
     private void Start()
@@ -23,9 +25,6 @@ public class CoinSpawner : MonoBehaviour
     private void Spawn()
     {
         Coin coin = _coinPool.Get();
-
-        if (coin == null) 
-            return;
 
         coin.enabled = true;
         coin.transform.position = _position;
@@ -40,7 +39,7 @@ public class CoinSpawner : MonoBehaviour
 
     private IEnumerator SpawnCourutine()
     {
-        yield return new WaitForSeconds(_repeatRate);
+        yield return _coinSpawnDelayer;
 
         Spawn();
     }

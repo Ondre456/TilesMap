@@ -18,11 +18,11 @@ public class PlayerAnimatorData : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void SetupParametres(float speed = BaseSpeed, bool IsAtack = DefaultAtackingState)
+    public void SetupParametres(float speed = BaseSpeed, bool isAtack = DefaultAtackingState)
     {
         _animator.SetFloat(Params.Speed, speed);
 
-        if (IsAtack)
+        if (isAtack)
             _animator.SetTrigger(Params.Attack);
     }
 }

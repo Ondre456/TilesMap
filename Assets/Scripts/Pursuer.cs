@@ -6,11 +6,11 @@ public class Pursuer : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
 
-    private Player _goal;
+    private Player _target;
     private Rigidbody2D _rigidbody;
     private Flipper _flipper;
 
-    public bool IsPurse { get => _goal != null; }
+    public bool IsPurse { get => _target != null; }
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class Pursuer : MonoBehaviour
 
     public void Purse()
     {
-        Vector2 targetPosition = _goal.transform.position;
+        Vector2 targetPosition = _target.transform.position;
         Vector2 currentPosition = _rigidbody.position;
         Vector2 direction = (targetPosition - currentPosition).normalized;
         Vector2 velocity = _rigidbody.velocity;
@@ -32,11 +32,11 @@ public class Pursuer : MonoBehaviour
 
     public void AcceptGoal(Player goal)
     {
-        _goal = goal;
+        _target = goal;
     }
 
     public void LooseGoal()
     {
-        _goal = null;
+        _target = null;
     }
 }
