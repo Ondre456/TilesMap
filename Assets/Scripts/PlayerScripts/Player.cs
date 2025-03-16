@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
         _playerFightingSystem = GetComponent<PlayerFightingSystem>();
 
         _inputReader.OnMovingInput += OnMove;
+        _inputReader.OnStop += Stop;
         _inputReader.OnJump += Jump;
         _inputReader.OnAttack += Attack;
     }
@@ -42,4 +43,10 @@ public class Player : MonoBehaviour
     {
         _jumper.TryJump();
     }
+
+    private void Stop()
+    {
+        _playerAnimatorData.SetupParametres();
+    }
+
 }

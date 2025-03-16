@@ -1,17 +1,20 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Patrool))]
+[RequireComponent(typeof(Patrol))]
 [RequireComponent(typeof(Pursuer))]
 [RequireComponent(typeof(EnemyAnimator))]
 public class Enemy : MonoBehaviour
 {
-    private Patrool _patrool;
+    private Patrol _patrool;
     private Pursuer _pursuer;
+    private EnemyAnimator _enemyAnimator;
 
     private void Awake()
     {
-        _patrool = GetComponent<Patrool>();
+        _patrool = GetComponent<Patrol>();
         _pursuer = GetComponent<Pursuer>();
+        _enemyAnimator = GetComponent<EnemyAnimator>();
+        _pursuer.EnterAttackZone += Attack;
     }
 
     private void FixedUpdate()
@@ -31,5 +34,10 @@ public class Enemy : MonoBehaviour
                 Destroy(opponent.gameObject);
             }
         }
+    }
+
+    private void Attack()
+    {
+        _enemyAnimator.SetupAttack();
     }
 }

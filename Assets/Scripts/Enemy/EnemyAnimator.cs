@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyAnimator : MonoBehaviour
 {
     private const int EnemyBaseSpeed = 1;
+    public const string Attack = nameof(Attack);
 
     public static readonly int Speed = Animator.StringToHash(nameof(Speed));
 
@@ -18,5 +19,10 @@ public class EnemyAnimator : MonoBehaviour
     public void SetupSpeed(float speed = EnemyBaseSpeed)
     {
         _animator.SetFloat(Speed, speed);
+    }
+
+    public void SetupAttack()
+    {
+        _animator.SetTrigger(Attack);
     }
 }

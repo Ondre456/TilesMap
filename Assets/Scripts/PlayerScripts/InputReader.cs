@@ -8,10 +8,12 @@ public class InputReader : MonoBehaviour
     private const string Fire1 = nameof(Fire1);
 
     private float _oldDirection;
+    private bool _isMove;
 
     public Action<float, bool> OnMovingInput;
     public Action OnJump;
     public Action<float> OnAttack;
+    public Action OnStop;
 
     private void Update()
     {
@@ -19,12 +21,19 @@ public class InputReader : MonoBehaviour
 
         float direction = Input.GetAxis(Horizontal);
 
-        if (direction != MovingStopMeaning || _oldDirection != direction)
+        if (direction != MovingStopMeaning)
         {
             bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             OnMovingInput?.Invoke(direction, isWalking);
-            _oldDirection = direction;
+            _isMove = true;
         }
+
+        if (_isMove && direction == MovingStopMeaning)
+        {
+            OnStop?.Invoke();
+            _isMove = false;
+        }
+
         bool isJump = Input.GetButtonDown(Jump);
 
         if (isJump)
@@ -38,6 +47,5 @@ public class InputReader : MonoBehaviour
         {
             OnAttack?.Invoke(direction);
         }
-
     }
 }

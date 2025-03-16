@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Flipper))]
-public class Patrool : MonoBehaviour
+public class Patrol : MonoBehaviour
 {
     [SerializeField] private List<Vector2> _points = new List<Vector2>();
     [SerializeField] private float _distanceThreshold = 0.1f;
