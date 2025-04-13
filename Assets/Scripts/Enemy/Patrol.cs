@@ -5,11 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Flipper))]
 public class Patrol : MonoBehaviour
 {
-    [SerializeField] private List<Vector2> _points = new List<Vector2>();
+    [SerializeField] private Vector2[] _points;
     [SerializeField] private float _distanceThreshold = 0.1f;
     [SerializeField] private float _speed = 2f;
 
     private int _index = 0;
+    private int _incrementedNumber = 0;
     private Vector2 _currentGoal;
     private Rigidbody2D _rigidbody;
     private Flipper _directionChanger;
@@ -23,10 +24,10 @@ public class Patrol : MonoBehaviour
 
     public void Move()
     {
-        if (_points.Count == 0)
+        if (_points.Length == 0)
             return;
 
-        Vector2 targetPosition = _points[_index % _points.Count];
+        Vector2 targetPosition = _points[_index];
         Vector2 currentPosition = _rigidbody.position;
         Vector2 direction = (targetPosition - currentPosition).normalized;
         Vector2 velocity = _rigidbody.velocity;
@@ -37,7 +38,8 @@ public class Patrol : MonoBehaviour
 
         if (Mathf.Abs(currentPosition.x - targetPosition.x) < _distanceThreshold)
         {
-            _index++;
+            _incrementedNumber++;
+            _index = _incrementedNumber % _points.Length;
         }
     }
 }

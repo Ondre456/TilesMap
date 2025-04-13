@@ -29,9 +29,9 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out PlayerFightingSystem opponent))
         {
-            if (opponent.IsAttack == false)
+            if (opponent.IsAttack)
             {
-                Destroy(opponent.gameObject);
+                Destroy(gameObject);
             }
         }
     }

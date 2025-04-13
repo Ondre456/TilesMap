@@ -28,12 +28,12 @@ public class CoinSpawner : MonoBehaviour
 
         coin.enabled = true;
         coin.transform.position = _position;
-        coin.Deactivated -= CoinDeactivated;
         coin.Deactivated += CoinDeactivated;
     }
 
     private void CoinDeactivated(Coin coin)
     {
+        coin.Deactivated -= CoinDeactivated;
         StartCoroutine(SpawnCoroutine());
     }
 

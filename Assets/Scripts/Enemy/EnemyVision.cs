@@ -1,16 +1,16 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class PurseZone : MonoBehaviour
+[RequireComponent(typeof(Pursuer))]
+public class EnemyVision : MonoBehaviour
 {
-    [SerializeField] private Pursuer _purser;
-
+    private Pursuer _purser;
     private BoxCollider2D _boxCollider;
 
     private void Awake()
     {
+        _purser = GetComponent<Pursuer>();
         _boxCollider = GetComponent<BoxCollider2D>();
-        _boxCollider.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
