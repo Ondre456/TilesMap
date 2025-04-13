@@ -35,9 +35,7 @@ public class Pursuer : MonoBehaviour
         float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
 
         if (distanceToTarget <= _attackRange)
-        {
             EnterAttackZone?.Invoke();
-        }
     }
 
     public void AcceptGoal(Player target)

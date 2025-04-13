@@ -7,7 +7,6 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _acceleration = 2f;
     [SerializeField] private float _maxSpeed = 12f;
-    [SerializeField] private float _deceleration = 4f;
     [SerializeField] private float _walkSpeed = 4f;
 
     private Rigidbody2D _rigidbody;
@@ -37,20 +36,7 @@ public class PlayerMover : MonoBehaviour
         }
         else
         {
-            if (_speed > 0)
-            {
-                _speed -= _deceleration;
-
-                if (_speed < 0)
-                    _speed = 0;
-            }
-            else if (_speed < 0)
-            {
-                _speed += _deceleration;
-
-                if (_speed > 0)
-                    _speed = 0;
-            }
+            _speed = 0;
         }
 
         _movementDirectionChanger.SetDirection(_speed);
