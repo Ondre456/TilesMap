@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(InputReader))]
 [RequireComponent(typeof(PlayerFightingSystem))]
 [RequireComponent(typeof(DamageAcceptor))]
+[RequireComponent(typeof(Fighter))]
 public class Player : MonoBehaviour
 {
     private PlayerAnimatorData _playerAnimatorData;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     private InputReader _inputReader;
     private PlayerFightingSystem _playerFightingSystem;
     private DamageAcceptor _damageAcceptor;
+    private Fighter _faighter;
     private bool _isAttack;
     private bool _isMove;
     private bool _isWalking;
@@ -30,18 +32,23 @@ public class Player : MonoBehaviour
         _inputReader = GetComponent<InputReader>();
         _playerFightingSystem = GetComponent<PlayerFightingSystem>();
         _damageAcceptor = GetComponent<DamageAcceptor>();
+        _faighter = GetComponent<Fighter>();
 
-        _inputReader.OnMovingInput += OnMove;
-        _inputReader.OnJump += Jump;
-        _inputReader.OnAttack += HandleAttack;
+        _inputReader.MovingInputOccurred += OnMove;
+        _inputReader.JumpOccurred += Jump;
+        _inputReader.AttackOccurred += HandleAttack;
     }
 
     private void FixedUpdate()
     {
-        if (_isAttack)
+        if (_damageAcceptor.IsHited)
         {
-            _playerFightingSystem.Splash();
-            _isAttack = _playerFightingSystem.IsAttack;
+            _damageAcceptor.HitMove();
+        }
+        else if (_isAttack)
+        {
+            _playerFightingSystem.Splash(_direction);
+            _isAttack = _faighter.IsAttack;
         }
         else
         {
@@ -61,7 +68,7 @@ public class Player : MonoBehaviour
     private void HandleAttack(float direction)
     {
         _isAttack = true;
-        _playerFightingSystem.Atack(direction);
+        _faighter.Attack();
         _playerAnimatorData.SetupParametres(_playerMover.GetSpeedCoefficient(), true);
     }
 

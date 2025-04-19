@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Flipper))]
+[RequireComponent(typeof(Fighter))]
 public class Pursuer : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
@@ -11,6 +12,7 @@ public class Pursuer : MonoBehaviour
     private Player _target;
     private Rigidbody2D _rigidbody;
     private Flipper _flipper;
+    private Fighter _fighter;
 
     public bool IsPurse { get => _target != null; }
 
@@ -20,6 +22,8 @@ public class Pursuer : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _flipper = GetComponent<Flipper>();
+        _fighter = GetComponent<Fighter>();
+        EnterAttackZone += _fighter.Attack;
     }
 
     public void Purse()
@@ -35,7 +39,9 @@ public class Pursuer : MonoBehaviour
         float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
 
         if (distanceToTarget <= _attackRange)
+        {
             EnterAttackZone?.Invoke();
+        }
     }
 
     public void AcceptGoal(Player target)

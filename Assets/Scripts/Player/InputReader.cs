@@ -6,17 +6,10 @@ public class InputReader : MonoBehaviour
     private const string Jump = nameof(Jump);
     private const string Horizontal = nameof(Horizontal);
     private const string Fire1 = nameof(Fire1);
-    private const float MovingStopMeaning = 0;
 
-    private float _currentDirection;
-    private bool _isMoving;
-    private bool _isWalking;
-
-    public event Action<float, bool> OnMovingInput;
-    public event Action OnJump;
-    public event Action<float> OnAttack;
-    public event Action OnStopMoving;
-    public event Action<bool> OnWalkStateChanged;
+    public event Action<float, bool> MovingInputOccurred;
+    public event Action JumpOccurred;
+    public event Action<float> AttackOccurred;
 
     private void Update()
     {
@@ -29,66 +22,23 @@ public class InputReader : MonoBehaviour
     {
         float direction = Input.GetAxis(Horizontal);
         bool isWalking = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-
-        if (direction != MovingStopMeaning && !_isMoving)
-        {
-            _isMoving = true;
-            _currentDirection = direction;
-            OnMovingInput?.Invoke(direction, isWalking);
-            UpdateWalkState(isWalking);
-        }
-        else if (direction != MovingStopMeaning && _isMoving && direction != _currentDirection)
-        {
-            _isMoving = true;
-            _currentDirection = direction;
-            OnMovingInput?.Invoke(direction, isWalking);
-            UpdateWalkState(isWalking);
-        }
-        else if (direction == MovingStopMeaning && _isMoving)
-        {
-            _isMoving = false;
-            OnMovingInput(direction, isWalking);
-        }
-
-        if (_isMoving)
-        {
-            UpdateWalkState(isWalking);
-        }
-
-        if (_isMoving && direction == MovingStopMeaning)
-        {
-            _isMoving = false;
-            OnStopMoving?.Invoke();
-        }
-
-    }
-
-    private void UpdateWalkState(bool newWalkState)
-    {
-        if (_isWalking != newWalkState)
-        {
-            _isWalking = newWalkState;
-            OnWalkStateChanged?.Invoke(_isWalking);
-        }
+        MovingInputOccurred?.Invoke(direction, isWalking);
     }
 
     private void HandleJumpInput()
     {
-        bool isJump = Input.GetButtonDown(Jump);
-
-        if (isJump)
+        if (Input.GetButtonDown(Jump))
         {
-            OnJump?.Invoke();
+            JumpOccurred?.Invoke();
         }
     }
 
     private void HandleAttackInput()
     {
-        bool isAttack = Input.GetButtonDown(Fire1);
-
-        if (isAttack)
+        if (Input.GetButtonDown(Fire1))
         {
-            OnAttack?.Invoke(_currentDirection);
+            float direction = Input.GetAxis(Horizontal);
+            AttackOccurred?.Invoke(direction);
         }
     }
 }
