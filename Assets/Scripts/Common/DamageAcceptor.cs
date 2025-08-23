@@ -36,8 +36,11 @@ public class DamageAcceptor : MonoBehaviour
 
     public void AcceptHeal(int heal)
     {
-        OnHealthChanged?.Invoke();
+        if (Health <= 0 || Health == _maxHealth)
+            return;
+
         Health += heal;
+        OnHealthChanged?.Invoke();
     }
 
     public void HitMove()
