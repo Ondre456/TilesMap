@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,20 +15,29 @@ public class DamageAcceptor : MonoBehaviour
     public int Health { get; private set; }
     public bool IsHited { get; private set; }
 
+    public event Action OnHealthChanged;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         Health = _maxHealth;
     }
 
-    public void AcceptDamage(int damage, Vector2 opponentPosition)
+    public void AcceptDamage(int damage, Vector2 opponentPosition = default)
     {
         Health -= damage;
         IsHited = true;
         _opponentPosition = opponentPosition;
+        OnHealthChanged?.Invoke();   
 
         if (Health == 0)
             Destroy(gameObject);
+    }
+
+    public void AcceptHeal(int heal)
+    {
+        OnHealthChanged?.Invoke();
+        Health += heal;
     }
 
     public void HitMove()
@@ -47,5 +57,10 @@ public class DamageAcceptor : MonoBehaviour
                 _framesSinceHit = 0;
             }
         }
+    }
+
+    public int GetMaxHealth()
+    {
+        return _maxHealth;
     }
 }
