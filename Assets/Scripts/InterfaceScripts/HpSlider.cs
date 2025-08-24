@@ -5,27 +5,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class HpSlider : MonoBehaviour
+public class HpSlider : HpIndicator
 {
-    [SerializeField] private DamageAcceptor _damageAcceptor;
-
     private Slider _slider;
 
     private void Awake()
     {
+        base.Awake();
         _slider = GetComponent<Slider>();
-        _damageAcceptor.OnHealthChanged += TargetHpChanged;
-        _slider.maxValue = _damageAcceptor.GetMaxHealth();
+        _slider.maxValue = DamageAcceptor.MaxHealth;
         _slider.value = _slider.maxValue;
     }
 
-    private void OnDisable()
+    protected override void TargetHpChannged()
     {
-        _damageAcceptor.OnHealthChanged -= TargetHpChanged;
+        _slider.value = DamageAcceptor.Health;
     }
 
-    private void TargetHpChanged()
-    {
-        _slider.value = _damageAcceptor.Health;
-    }
 }
