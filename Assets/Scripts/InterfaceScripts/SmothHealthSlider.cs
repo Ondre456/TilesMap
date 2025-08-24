@@ -2,25 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class SmothHealthSlider : MonoBehaviour
+public class SmothHealthSlider : HpIndicator
 {
-    [SerializeField] private DamageAcceptor _damageAcceptor;
-
     private Slider _slider;
     private float _newHpValue;
 
     private void Awake()
     {
+        base.Awake();
         _slider = GetComponent<Slider>();
-        _damageAcceptor.OnHealthChanged += TargetHpChanged;
-        _slider.maxValue = _damageAcceptor.GetMaxHealth();
+        _slider.maxValue = DamageAcceptor.MaxHealth;
         _slider.value = _slider.maxValue;
-        _newHpValue = _damageAcceptor.GetMaxHealth();
-    }
-
-    private void OnDisable()
-    {
-        _damageAcceptor.OnHealthChanged -= TargetHpChanged;
+        _newHpValue = DamageAcceptor.MaxHealth;
     }
 
     private void FixedUpdate()
@@ -30,8 +23,8 @@ public class SmothHealthSlider : MonoBehaviour
         _slider.value = Mathf.MoveTowards(_slider.value, _newHpValue, Delta);
     }
 
-    private void TargetHpChanged()
+    protected override void TargetHpChannged()
     {
-        _newHpValue = _damageAcceptor.Health;
+        _newHpValue = DamageAcceptor.Health;
     }
 }

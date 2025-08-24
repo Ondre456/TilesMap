@@ -2,28 +2,21 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class TextHealthIndicator : MonoBehaviour
+public class TextHealthIndicator : HpIndicator
 {
-    [SerializeField] private DamageAcceptor _target;
-
     private TextMeshProUGUI _healthTextBox;
     private int _targetMaxHealth;
 
     private void Awake()
     {
+        base.Awake();
         _healthTextBox = GetComponent<TextMeshProUGUI>();
-        _target.OnHealthChanged += ChangeHpText;
-        _targetMaxHealth = _target.GetMaxHealth();
+        _targetMaxHealth = DamageAcceptor.MaxHealth;
         _healthTextBox.text = $"{_targetMaxHealth}/{_targetMaxHealth}";
     }
 
-    private void OnDisable()
+    protected override void TargetHpChannged()
     {
-        _target.OnHealthChanged -= ChangeHpText;
-    }
-
-    private void ChangeHpText()
-    {
-        _healthTextBox.text = $"{_target.Health}/{_targetMaxHealth}";
+        _healthTextBox.text = $"{DamageAcceptor.Health}/{_targetMaxHealth}";
     }
 }

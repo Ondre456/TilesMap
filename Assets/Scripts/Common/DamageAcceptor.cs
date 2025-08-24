@@ -2,45 +2,30 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(HealthyObject))]
 public class DamageAcceptor : MonoBehaviour
 {
-    [SerializeField] private int _maxHealth = 3;
     [SerializeField] private int _hitFrames = 20;
     [SerializeField] private float _moveSpeed = 20f;
 
     private Vector2 _opponentPosition;
     private Rigidbody2D _rigidbody;
     private int _framesSinceHit;
+    private HealthyObject _health;
 
-    public int Health { get; private set; }
     public bool IsHited { get; private set; }
-
-    public event Action OnHealthChanged;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        Health = _maxHealth;
+        _health = GetComponent<HealthyObject>();
     }
 
     public void AcceptDamage(int damage, Vector2 opponentPosition = default)
     {
-        Health -= damage;
+        _health.AcceptDamage(damage);
         IsHited = true;
         _opponentPosition = opponentPosition;
-        OnHealthChanged?.Invoke();   
-
-        if (Health == 0)
-            Destroy(gameObject);
-    }
-
-    public void AcceptHeal(int heal)
-    {
-        if (Health <= 0 || Health == _maxHealth)
-            return;
-        
-        Health += heal;
-        OnHealthChanged?.Invoke();
     }
 
     public void HitMove()
@@ -60,10 +45,5 @@ public class DamageAcceptor : MonoBehaviour
                 _framesSinceHit = 0;
             }
         }
-    }
-
-    public int GetMaxHealth()
-    {
-        return _maxHealth;
     }
 }
