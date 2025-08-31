@@ -1,30 +1,46 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class SmothHealthSlider : HpIndicator
+public class SmothHealthSlider : HealthIndicator
 {
     private Slider _slider;
     private float _newHpValue;
+    private Coroutine _coroutine;
 
     private void Awake()
     {
         base.Awake();
         _slider = GetComponent<Slider>();
-        _slider.maxValue = DamageAcceptor.MaxHealth;
+        _slider.maxValue = Target.MaxHealth;
         _slider.value = _slider.maxValue;
-        _newHpValue = DamageAcceptor.MaxHealth;
+        _newHpValue = Target.MaxHealth;
     }
 
-    private void FixedUpdate()
+    protected override void TargetHealthChannged()
     {
-        const float Delta = 0.2f;
+        _newHpValue = Target.Value;
+        
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
 
-        _slider.value = Mathf.MoveTowards(_slider.value, _newHpValue, Delta);
+        _coroutine = StartCoroutine(SmoothSlider());
     }
 
-    protected override void TargetHpChannged()
+    private IEnumerator SmoothSlider()
     {
-        _newHpValue = DamageAcceptor.Health;
+        const float Delta = 0.1f;
+       
+        while (Mathf.Abs(_slider.value - _newHpValue) > 0.01f)
+        {
+            _slider.value = Mathf.MoveTowards(_slider.value, _newHpValue, Delta);
+            
+            yield return null;
+        }
+
+        _slider.value = _newHpValue;
     }
 }

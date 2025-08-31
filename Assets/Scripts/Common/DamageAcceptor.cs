@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(HealthyObject))]
+[RequireComponent(typeof(Health))]
 public class DamageAcceptor : MonoBehaviour
 {
     [SerializeField] private int _hitFrames = 20;
@@ -11,14 +11,14 @@ public class DamageAcceptor : MonoBehaviour
     private Vector2 _opponentPosition;
     private Rigidbody2D _rigidbody;
     private int _framesSinceHit;
-    private HealthyObject _health;
+    private Health _health;
 
     public bool IsHited { get; private set; }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _health = GetComponent<HealthyObject>();
+        _health = GetComponent<Health>();
     }
 
     public void AcceptDamage(int damage, Vector2 opponentPosition = default)
