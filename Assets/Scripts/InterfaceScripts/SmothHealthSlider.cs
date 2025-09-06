@@ -6,22 +6,19 @@ using UnityEngine.UI;
 public class SmothHealthSlider : HealthIndicator
 {
     private Slider _slider;
-    private float _newHpValue;
     private Coroutine _coroutine;
 
     private void Awake()
     {
         base.Awake();
         _slider = GetComponent<Slider>();
+        _slider.interactable = false;
         _slider.maxValue = Target.MaxHealth;
         _slider.value = _slider.maxValue;
-        _newHpValue = Target.MaxHealth;
     }
 
     protected override void TargetHealthChannged()
     {
-        _newHpValue = Target.Value;
-        
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
@@ -34,13 +31,13 @@ public class SmothHealthSlider : HealthIndicator
     {
         const float Delta = 0.1f;
        
-        while (Mathf.Abs(_slider.value - _newHpValue) > 0.01f)
+        while (Mathf.Abs(_slider.value - Target.Value) > 0.01f)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, _newHpValue, Delta);
+            _slider.value = Mathf.MoveTowards(_slider.value, Target.Value, Delta);
             
             yield return null;
         }
 
-        _slider.value = _newHpValue;
+        _slider.value = Target.Value;
     }
 }
