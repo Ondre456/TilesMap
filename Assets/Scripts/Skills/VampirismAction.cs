@@ -71,15 +71,15 @@ public class VampirismAction : SkillAction
 
     private class TargetInfo
     {
-        public GameObject TargetObject;
-        public Health TargetHealth;
-        public Vector3 Position;
-
         public TargetInfo(GameObject obj, Health health, Vector3 pos)
         {
             TargetObject = obj;
             TargetHealth = health;
             Position = pos;
         }
+
+        public GameObject TargetObject { get; private set; }
+        public Health TargetHealth { get; private set; }
+        public Vector3 Position { get; private set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ public class Skill : MonoBehaviour
 {
     [SerializeField] private float _timeOfActive;
     [SerializeField] private float _timeOfCooldown;
-    
+    [SerializeField] private List<SkillIndicator> _indicators;
+
     private WaitForSeconds _cooldownTimer;
     private WaitForSeconds _skillTimer;
     private SkillAction _skillAction;
@@ -24,21 +26,28 @@ public class Skill : MonoBehaviour
 
     public void Activate()
     {
-        StartCoroutine(ActivateZone());
+        if (CanBeActivated)
+            StartCoroutine(Active());
     }
 
-    private IEnumerator<WaitForSeconds> ActivateZone()
+    private IEnumerator Active()
     {
         CanBeActivated = false;
         _skillAction.enabled = true;
+        
+        foreach (var indicator in _indicators)
+            indicator.MakeVisible();
 
         yield return _skillTimer;
 
+        foreach (var indicator in _indicators)
+            indicator.MakeInvisible();
+
         _skillAction.enabled = false;
-        StartCoroutine(Cooldown());
+        yield return Cooldown();
     }
 
-    private IEnumerator<WaitForSeconds> Cooldown()
+    private IEnumerator Cooldown()
     {
         yield return _cooldownTimer;
 
