@@ -34,16 +34,15 @@ public class Skill : MonoBehaviour
     {
         CanBeActivated = false;
         _skillAction.enabled = true;
-        
-        foreach (var indicator in _indicators)
-            indicator.MakeVisible();
+
+        SetIndicatorsVisibility(true);
 
         yield return _skillTimer;
 
-        foreach (var indicator in _indicators)
-            indicator.MakeInvisible();
+        SetIndicatorsVisibility(false);
 
         _skillAction.enabled = false;
+        
         yield return Cooldown();
     }
 
@@ -52,5 +51,16 @@ public class Skill : MonoBehaviour
         yield return _cooldownTimer;
 
         CanBeActivated = true;
+    }
+
+    private void SetIndicatorsVisibility(bool visible)
+    {
+        foreach (var indicator in _indicators)
+        {
+            if (visible)
+                indicator.MakeVisible();
+            else
+                indicator.MakeInvisible();
+        }
     }
 }

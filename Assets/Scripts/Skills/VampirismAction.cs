@@ -50,7 +50,7 @@ public class VampirismAction : SkillAction
         if (collision.TryGetComponent(out opponentHealth))
         {
             TargetInfo targetInfo = new TargetInfo(
-                collision.gameObject,
+                collision.transform,
                 opponentHealth,
                 collision.transform.position
             );
@@ -61,25 +61,11 @@ public class VampirismAction : SkillAction
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        TargetInfo targetToRemove = _targets.Find(t => t.TargetObject == collision.gameObject);
+        TargetInfo targetToRemove = _targets.Find(t => t.TargetTransform == collision.transform);
 
         if (targetToRemove != null)
         {
             _targets.Remove(targetToRemove);
         }
-    }
-
-    private class TargetInfo
-    {
-        public TargetInfo(GameObject obj, Health health, Vector3 pos)
-        {
-            TargetObject = obj;
-            TargetHealth = health;
-            Position = pos;
-        }
-
-        public GameObject TargetObject { get; private set; }
-        public Health TargetHealth { get; private set; }
-        public Vector3 Position { get; private set; }
     }
 }
